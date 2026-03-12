@@ -1,23 +1,25 @@
 using ContactList.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using ContactList.Data;
+using ContactList.Model;
 
-namespace VebPractika.Pages
+namespace ContactList.Pages.Contacts
 {
     public class IndexModel : PageModel
     {
-        private readonly ILogger<IndexModel> _logger;
         private readonly ApplicationDbContext _context;
 
-        public IndexModel(ILogger<IndexModel> logger, ApplicationDbContext context)
+        public IndexModel(ApplicationDbContext context)
         {
-            _logger = logger;
             _context = context;
         }
 
+        public List<ContactList.Model.Contact> Contacts { get; set; }
+
         public void OnGet()
         {
-
+            Contacts = _context.Contacts.ToList();
         }
     }
 }

@@ -4,5 +4,7 @@
     {
         public string? Phone { get; set; }
         public string? email { get; set; }
+
+        public string? FIO { get; set; }
     }
 }

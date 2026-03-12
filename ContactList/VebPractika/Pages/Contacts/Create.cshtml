@@ -1,0 +1,30 @@
+﻿@page
+@model ContactList.Pages.Events.CreateModel
+@{
+}
+
+<h1>Добавить контакт</h1>
+
+<form method="post">
+    <div>
+        <label>Телефон</label><br />
+        <input asp-for="Contact.Phone" />
+    </div>
+
+    <div>
+        <label>Email</label><br />
+        <input asp-for="Contact.Email" />
+    </div>
+
+    <div>
+        <label>ФИО</label><br />
+        <input asp-for="Contact.FIO" />
+    </div>
+
+    <div>
+        <label>Категория</label><br />
+        <input asp-for="Contact.CategoryId" type="date" />
+    </div>
+
+    <button type="submit">Сохранить</button>
+</form>

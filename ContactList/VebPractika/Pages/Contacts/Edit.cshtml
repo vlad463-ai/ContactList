@@ -1,0 +1,13 @@
+﻿@page "{id:int}"
+@model ContactList.Pages.Contacts.EditModel
+
+<form method="post">
+    <input type="hidden" asp-for="Contacts.Id" />
+
+    <input asp-for="Contacts.FIO" />
+    <input asp-for="Contacts.email" />
+    <input asp-for="Contacts.Phone" />
+   
+
+    <button type="submit">Сохранить</button>
+</form>

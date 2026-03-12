@@ -1,0 +1,11 @@
+﻿@page "{id:int}"
+@model ContactList.Pages.Contacts.DeleteModel
+
+<h3>Удалить студента?</h3>
+
+<p>@Model. ContactList.Pages.Contact.FIO</p>
+
+<form method="post">
+    <input type="hidden" asp-for="Contact.Id" />
+    <button type="submit">Удалить</button>
+</form>
