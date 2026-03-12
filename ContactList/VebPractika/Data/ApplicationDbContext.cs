@@ -13,7 +13,7 @@ namespace ContactList.Data
 
         public DbSet<Note> Notes { get; set; }
         public DbSet<Category> Categoryes { get; set; }
-        public DbSet<Contact> Contacts { get; set; }
+        public DbSet<ContactList.Model.Contact> Contacts { get; set; }
 
     }
 }
