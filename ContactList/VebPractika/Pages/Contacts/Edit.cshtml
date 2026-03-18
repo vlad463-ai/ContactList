@@ -1,13 +1,70 @@
 ﻿@page "{id:int}"
 @model ContactList.Pages.Contacts.EditModel
+@{
+    ViewData["Title"] = "Редактировать контакт";
+}
 
-<form method="post">
-    <input type="hidden" asp-for="Contacts.Id" />
+<div class="container mt-4">
 
-    <input asp-for="Contacts.FIO" />
-    <input asp-for="Contacts.email" />
-    <input asp-for="Contacts.Phone" />
-   
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
 
-    <button type="submit">Сохранить</button>
-</form>
+            <div class="card shadow-sm">
+
+                <div class="card-header bg-warning text-dark">
+                    <h4 class="mb-0">Редактировать контакт</h4>
+                </div>
+
+                <div class="card-body">
+
+                    <form method="post">
+
+                        <input type="hidden" asp-for="Contacts.Id" />
+
+                        <div class="mb-3">
+                            <label asp-for="Contacts.FIO" class="form-label">ФИО</label>
+                            <input asp-for="Contacts.FIO" class="form-control" />
+                            <span asp-validation-for="Contacts.FIO" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Contacts.email" class="form-label">Email</label>
+                            <input asp-for="Contacts.email" type="email" class="form-control" />
+                            <span asp-validation-for="Contacts.email" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Contacts.Phone" class="form-label">Телефон</label>
+                            <input asp-for="Contacts.Phone" class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Contacts.CategoryId" class="form-label">Категория</label>
+                            <select asp-for="Contacts.CategoryId" class="form-control" asp-items="ViewBag.CategoryId">
+                                <option value="">-- Выберите категорию --</option>
+                            </select>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+                            <a asp-page="Index" class="btn btn-secondary">
+                                Назад к списку
+                            </a>
+                            <button type="submit" class="btn btn-warning">
+                                Сохранить изменения
+                            </button>
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

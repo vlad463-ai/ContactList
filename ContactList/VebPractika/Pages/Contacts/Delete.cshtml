@@ -1,11 +1,63 @@
 ﻿@page "{id:int}"
 @model ContactList.Pages.Contacts.DeleteModel
+@{
+    ViewData["Title"] = "Удалить контакт";
+}
 
-<h3>Удалить студента?</h3>
+<div class="container mt-4">
 
-<p>@Model. ContactList.Pages.Contact.FIO</p>
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
 
-<form method="post">
-    <input type="hidden" asp-for="Contact.Id" />
-    <button type="submit">Удалить</button>
-</form>
+            <div class="card border-danger shadow-sm">
+
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0">Удалить контакт</h4>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="alert alert-warning">
+                        Вы уверены, что хотите удалить этот контакт?
+                    </div>
+
+                    <div class="mb-3">
+
+                        <h5 class="card-title">@Model.Contact.FIO</h5>
+
+                        <p class="card-text text-muted">
+                            Email: @Model.Contact.email
+                        </p>
+
+                        <p class="card-text">
+                            Телефон: <span class="badge bg-secondary">@Model.Contact.Phone</span>
+                        </p>
+
+                    </div>
+
+                    <form method="post">
+
+                        <input type="hidden" asp-for="Contact.Id" />
+
+                        <div class="d-flex justify-content-between">
+
+                            <a asp-page="Index" class="btn btn-secondary">
+                                Отмена
+                            </a>
+
+                            <button type="submit" class="btn btn-danger">
+                                Удалить
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>

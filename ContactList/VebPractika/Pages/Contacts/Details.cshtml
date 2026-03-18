@@ -1,16 +1,68 @@
 ﻿@page "{id:int}"
-@model Contacts.Pages.Contact.DetailsModel  
+@model ContactList.Pages.Contacts.DetailsModel
 @{
+    ViewData["Title"] = "Информация о контакте";
 }
 
-<h1>Информация о студенте</h1>
+<div class="container mt-4">
 
-<div>
-    <p><strong>ФИО:</strong> @Model.Contact.FIO</p>
-    <p><strong>Email:</strong> @Model.Contact.email</p>
-    <p><strong>Телефон:</strong> @Model.Contact.Phone</p>
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Информация о контакте</h4>
+                </div>
+
+                <div class="card-body">
+
+                    <h5 class="card-title mb-3">
+                        👤 @Model.Contact.FIO
+                    </h5>
+
+                    <ul class="list-group list-group-flush mb-3">
+
+                        <li class="list-group-item">
+                            <strong>Email:</strong>
+                            <span class="text-muted">@Model.Contact.email</span>
+                        </li>
+
+                        <li class="list-group-item">
+                            <strong>Телефон:</strong>
+                            <span class="badge bg-secondary">
+                                @Model.Contact.Phone
+                            </span>
+                        </li>
+
+                        <li class="list-group-item">
+                            <strong>Категория:</strong>
+                            <span class="badge bg-info">
+                                @(Model.Contact.Category?.Name ?? "Не указана")
+                            </span>
+                        </li>
+
+                    </ul>
+
+                    <div class="d-flex justify-content-between">
+
+                        <a asp-page="Index" class="btn btn-secondary">
+                            Назад к списку
+                        </a>
+
+                        <a asp-page="Edit"
+                           asp-route-id="@Model.Contact.Id"
+                           class="btn btn-warning">
+                            Редактировать
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
 </div>
-
-<p>
-    <a asp-page="Index">Назад к списку</a>
-</p>

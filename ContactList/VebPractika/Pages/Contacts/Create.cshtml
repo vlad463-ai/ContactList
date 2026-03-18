@@ -1,30 +1,72 @@
 ﻿@page
-@model ContactList.Pages.Events.CreateModel
+@model ContactList.Pages.Contacts.CreateModel
 @{
+    ViewData["Title"] = "Добавить контакт";
 }
 
-<h1>Добавить контакт</h1>
+<div class="container mt-4">
 
-<form method="post">
-    <div>
-        <label>Телефон</label><br />
-        <input asp-for="Contact.Phone" />
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+
+            <div class="card shadow-sm">
+
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Добавить контакт</h4>
+                </div>
+
+                <div class="card-body">
+
+                    <form method="post">
+
+                        <div class="mb-3">
+                            <label asp-for="Contact.FIO" class="form-label">ФИО</label>
+                            <input asp-for="Contact.FIO" class="form-control" />
+                            <span asp-validation-for="Contact.FIO" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Contact.email" class="form-label">Email</label>
+                            <input asp-for="Contact.email" type="email" class="form-control" />
+                            <span asp-validation-for="Contact.email" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Contact.Phone" class="form-label">Телефон</label>
+                            <input asp-for="Contact.Phone" class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Contact.CategoryId" class="form-label">Категория</label>
+                            <select asp-for="Contact.CategoryId" class="form-control">
+                                <option value="">-- Выберите категорию --</option>
+                                <!-- Здесь будет заполнение категорий из ViewBag или модели -->
+                            </select>
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+
+                            <a asp-page="Index" class="btn btn-secondary">
+                                Назад к списку
+                            </a>
+
+                            <button type="submit" class="btn btn-success">
+                                Сохранить
+                            </button>
+
+                        </div>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
     </div>
 
-    <div>
-        <label>Email</label><br />
-        <input asp-for="Contact.Email" />
-    </div>
+</div>
 
-    <div>
-        <label>ФИО</label><br />
-        <input asp-for="Contact.FIO" />
-    </div>
-
-    <div>
-        <label>Категория</label><br />
-        <input asp-for="Contact.CategoryId" type="date" />
-    </div>
-
-    <button type="submit">Сохранить</button>
-</form>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

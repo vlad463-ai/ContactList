@@ -1,6 +1,6 @@
-using ContactList.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using ContactList.Data;
 using ContactList.Model;
 
@@ -19,7 +19,8 @@ namespace ContactList.Pages.Contacts
 
         public void OnGet()
         {
-            Contacts = _context.Contacts.ToList();
+            Contacts = _context.Contacts
+                .ToList();
         }
     }
 }

@@ -1,4 +1,3 @@
-using ContactList.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ContactList.Data;
@@ -17,7 +16,12 @@ namespace ContactList.Pages.Contacts
 
         [BindProperty]
         public ContactList.Model.Contact Contact { get; set; }
-        public void OnGet() { }
+
+        public IActionResult OnGet()
+        {
+            return Page();
+        }
+
         public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
@@ -28,6 +32,5 @@ namespace ContactList.Pages.Contacts
 
             return RedirectToPage("Index");
         }
-
     }
 }
