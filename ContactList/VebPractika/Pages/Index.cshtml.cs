@@ -1,4 +1,5 @@
 using ContactList.Data;
+using ContactList.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 

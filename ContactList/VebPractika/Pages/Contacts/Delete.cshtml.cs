@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using ContactList.Data;
 using ContactList.Model;
 
@@ -16,13 +15,11 @@ namespace ContactList.Pages.Contacts
         }
 
         [BindProperty]
-        public ContactList.Model.Contact? Contact { get; set; }
+        public ContactList.Model.Contact Contact { get; set; }
 
         public IActionResult OnGet(int id)
         {
-            Contact = _context.Contacts
-                        .Where(c => c.Id == id)
-                        .FirstOrDefault();
+            Contact = _context.Contacts.Find(id);
 
             if (Contact == null)
                 return NotFound();

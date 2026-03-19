@@ -1,10 +1,8 @@
-using ContactList.Data;
-using ContactList.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-
+using ContactList.Data;
+using ContactList.Model;
 
 namespace ContactList.Pages.Contacts
 {
@@ -18,19 +16,15 @@ namespace ContactList.Pages.Contacts
         }
 
         [BindProperty]
-        public ContactList.Model.Contact? Contacts { get; set; }  // ќбратите внимание: свойство называетс€ Contacts (множественное число)
+        public ContactList.Model.Contact Contacts { get; set; }
 
         public IActionResult OnGet(int id)
         {
-            Contacts = _context.Contacts
-                        .Where(c => c.Id == id)
-                        .Include(c => c.Category)
-                        .FirstOrDefault();
+            Contacts = _context.Contacts.Find(id);
 
             if (Contacts == null)
                 return NotFound();
 
-            // «агружаем список категорий дл€ выпадающего списка
             ViewData["CategoryId"] = new SelectList(_context.Categoryes, "Id", "Name", Contacts.CategoryId);
 
             return Page();
@@ -40,7 +34,6 @@ namespace ContactList.Pages.Contacts
         {
             if (!ModelState.IsValid)
             {
-                // ѕри ошибке валидации снова загружаем список категорий
                 ViewData["CategoryId"] = new SelectList(_context.Categoryes, "Id", "Name", Contacts.CategoryId);
                 return Page();
             }
