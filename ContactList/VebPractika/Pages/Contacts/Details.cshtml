@@ -1,0 +1,17 @@
+﻿@page "{id:int}"
+@model ContactList.Pages.Contacts.DetailsModel
+@{
+}
+
+<h1>Информация о контакте</h1>
+
+<div>
+    <p><strong>ФИО:</strong> @Model.Contact.FIO</p>
+    <p><strong>Email:</strong> @Model.Contact.email</p>
+    <p><strong>Телефон:</strong> @Model.Contact.Phone</p>
+    <p><strong>Категория:</strong> @(Model.Contact.Category?.Name ?? "Не указана")</p>
+</div>
+
+<p>
+    <a asp-page="Index">Назад к списку</a>
+</p>

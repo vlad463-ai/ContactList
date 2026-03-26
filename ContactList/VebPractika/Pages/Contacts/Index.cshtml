@@ -1,0 +1,38 @@
+﻿@page
+@model ContactList.Pages.Contacts.IndexModel
+@{
+}
+
+<h1>Список контактов</h1>
+
+<p>
+    <a asp-page="Create">Добавить новый контакт</a>
+</p>
+
+<table border="1" cellpadding="5">
+    <thead>
+        <tr>
+            <th>ФИО</th>
+            <th>Email</th>
+            <th>Телефон</th>
+            <th>Категория</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var contact in Model.Contacts)
+        {
+            <tr>
+                <td>@contact.FIO</td>
+                <td>@contact.email</td>
+                <td>@contact.Phone</td>
+                <td>@(contact.Category?.Name ?? "—")</td>
+                <td>
+                    <a asp-page="Details" asp-route-id="@contact.Id">Открыть</a>
+                    <a asp-page="Edit" asp-route-id="@contact.Id">Изменить</a>
+                    <a asp-page="Delete" asp-route-id="@contact.Id">Удалить</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
