@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using ContactList.Data;
 using ContactList.Model;
 
@@ -16,30 +17,33 @@ namespace ContactList.Pages.Contacts
         }
 
         [BindProperty]
-        public ContactList.Model.Contact Contacts { get; set; }
+        public ContactList.Model.Contact Contact { get; set; }
 
-        public IActionResult OnGet(int id)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
-            Contacts = _context.Contacts.Find(id);
+            if (id == null) return NotFound();
 
-            if (Contacts == null)
-                return NotFound();
+            Contact = await _context.Contacts.FindAsync(id);
+            if (Contact == null) return NotFound();
 
-            ViewData["CategoryId"] = new SelectList(_context.Categoryes, "Id", "Name", Contacts.CategoryId);
+            // «агружаем категории дл€ выпадающего списка
+            var categories = await _context.Categories.ToListAsync();
+            ViewData["CategoryId"] = new SelectList(categories, "Id", "Name", Contact.CategoryId);
 
             return Page();
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
-                ViewData["CategoryId"] = new SelectList(_context.Categoryes, "Id", "Name", Contacts.CategoryId);
+                var categories = await _context.Categories.ToListAsync();
+                ViewData["CategoryId"] = new SelectList(categories, "Id", "Name", Contact.CategoryId);
                 return Page();
             }
 
-            _context.Contacts.Update(Contacts);
-            _context.SaveChanges();
+            _context.Attach(Contact).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("Index");
         }
