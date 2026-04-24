@@ -1,0 +1,35 @@
+﻿@page
+@model ContactList.Pages.Notes.IndexModel
+@{
+    ViewData["Title"] = "Заметки";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Заметки</h1>
+        <a asp-page="Create" class="btn btn-primary">Добавить заметку</a>
+    </div>
+
+    <div class="row">
+        @foreach (var item in Model.Notes)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <p class="card-text">@item.Text</p>
+                        <p class="card-text">
+                            <small class="text-muted">
+                                <strong>Контакт:</strong> @(item.Contact?.FIO ?? "—")<br />
+                                <strong>Дата:</strong> @item.CreatedDate.ToString("dd.MM.yyyy")
+                            </small>
+                        </p>
+                        <div class="btn-group w-100">
+                            <a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Изменить</a>
+                            <a asp-page="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Удалить</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
