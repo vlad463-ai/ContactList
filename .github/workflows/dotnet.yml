@@ -18,7 +18,6 @@ jobs:
       with:
         dotnet-version: 8.0.x
 
-    # ПУТИ УКАЗАНЫ ПРАВИЛЬНО НА ОСНОВЕ ВАШЕЙ СТРУКТУРЫ
     - name: Restore dependencies
       run: dotnet restore ContactList/VebPractika.sln
 
@@ -26,4 +25,4 @@ jobs:
       run: dotnet build ContactList/VebPractika.sln --no-restore
 
     - name: Test
-      run: dotnet test ContactListTest/ContactListTest.csproj --no-build --verbosity normal
+      run: dotnet test ContactList/ContactListTest/ContactListTest.csproj --no-build --verbosity normal
