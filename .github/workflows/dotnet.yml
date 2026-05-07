@@ -13,16 +13,33 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    - name: Setup .NET
+    - name: 📁 Посмотреть структуру папок
+      run: |
+        echo "===== Корень репозитория ====="
+        ls -la
+        echo ""
+        echo "===== Все .csproj файлы ====="
+        find . -name "*.csproj"
+        echo ""
+        echo "===== Все .sln файлы ====="
+        find . -name "*.sln"
+        echo ""
+        echo "===== Папка ContactListTest ====="
+        ls -la ContactList/ContactListTest/ 2>/dev/null || echo "Папка не найдена по пути ContactList/ContactListTest/"
+        echo ""
+        echo "===== Поиск ContactListTest.csproj ====="
+        find . -name "ContactListTest.csproj"
+    
+    - name: ⚙️ Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
 
-    - name: Restore dependencies
+    - name: 🔧 Restore dependencies
       run: dotnet restore ContactList/VebPractika.sln
 
-    - name: Build
+    - name: 🛠️ Build
       run: dotnet build ContactList/VebPractika.sln --no-restore
 
-    - name: Test
+    - name: 🧪 Test
       run: dotnet test ContactList/ContactListTest/ContactListTest.csproj --no-build --verbosity normal
