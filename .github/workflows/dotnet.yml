@@ -13,29 +13,17 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     
-    # 1. СНАЧАЛА "РАЗВЕДКА" - Узнаем как называется папка с проектом
-    - name: 📁 Посмотреть структуру папок
-      run: |
-        echo "===== Корень репозитория ====="
-        ls -la
-        echo ""
-        echo "===== Все .csproj файлы ====="
-        find . -name "*.csproj"
-        echo ""
-        echo "===== Все .sln файлы ====="
-        find . -name "*.sln"
-    
-    - name: ⚙️ Установка .NET
+    - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 8.0.x
-    
-    # 2. АВТОМАТИЧЕСКИЙ ПОИСК ПРОЕКТА (самое надёжное)
-    - name: 🔧 Восстановление пакетов
-      run: dotnet restore
-    
-    - name: 🛠️ Сборка проекта
-      run: dotnet build --no-restore
-    
-    - name: 🧪 Запуск тестов
-      run: dotnet test --no-build --verbosity normal
+
+    # ПУТИ УКАЗАНЫ ПРАВИЛЬНО НА ОСНОВЕ ВАШЕЙ СТРУКТУРЫ
+    - name: Restore dependencies
+      run: dotnet restore ContactList/VebPractika.sln
+
+    - name: Build
+      run: dotnet build ContactList/VebPractika.sln --no-restore
+
+    - name: Test
+      run: dotnet test ContactListTest/ContactListTest.csproj --no-build --verbosity normal
