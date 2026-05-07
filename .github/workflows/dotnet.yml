@@ -22,10 +22,10 @@ jobs:
         dotnet-version: 8.0.x
     
     - name: Restore dependencies
-      run: dotnet restore VebPractika.sln
+      run: dotnet restore ContactList/ContactList.csproj
     
     - name: Build
-      run: dotnet build VebPractika.sln --no-restore
+      run: dotnet build ContactList/ContactList.csproj --no-restore
     
     - name: Test
       run: dotnet test ContactListTest/ContactListTest.csproj --no-build --verbosity normal
