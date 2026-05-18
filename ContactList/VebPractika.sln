@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.36414.22
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactList", "VebPractika\ContactList.csproj", "{1658B7B8-CCE6-40E4-9360-5F7B38B193DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactListTest", "ContactListTest\ContactListTest.csproj", "{04D45478-8156-4A6C-92A2-EA57077B7A69}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{1658B7B8-CCE6-40E4-9360-5F7B38B193DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1658B7B8-CCE6-40E4-9360-5F7B38B193DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1658B7B8-CCE6-40E4-9360-5F7B38B193DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04D45478-8156-4A6C-92A2-EA57077B7A69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04D45478-8156-4A6C-92A2-EA57077B7A69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04D45478-8156-4A6C-92A2-EA57077B7A69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04D45478-8156-4A6C-92A2-EA57077B7A69}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

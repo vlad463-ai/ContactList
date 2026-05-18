@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using ContactList.Data;
 using ContactList.Model;
 
-namespace ContactList.Pages.Contacts
+namespace ContactList.Pages.Notes
 {
     public class EditModel : PageModel
     {
@@ -17,19 +17,16 @@ namespace ContactList.Pages.Contacts
         }
 
         [BindProperty]
-        public ContactList.Model.Contact Contact { get; set; }
+        public Note Note { get; set; } = new Note();
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null) return NotFound();
 
-            Contact = await _context.Contacts.FindAsync(id);
-            if (Contact == null) return NotFound();
+            Note = await _context.Notes.FindAsync(id);
+            if (Note == null) return NotFound();
 
-            // «агружаем категории дл€ выпадающего списка
-            var categories = await _context.Categories.ToListAsync();
-            ViewData["CategoryId"] = new SelectList(categories, "Id", "Name", Contact.CategoryId);
-
+            ViewData["ContactId"] = new SelectList(await _context.Contacts.ToListAsync(), "Id", "FIO", Note.ContactId);
             return Page();
         }
 
@@ -37,12 +34,11 @@ namespace ContactList.Pages.Contacts
         {
             if (!ModelState.IsValid)
             {
-                var categories = await _context.Categories.ToListAsync();
-                ViewData["CategoryId"] = new SelectList(categories, "Id", "Name", Contact.CategoryId);
+                ViewData["ContactId"] = new SelectList(await _context.Contacts.ToListAsync(), "Id", "FIO", Note.ContactId);
                 return Page();
             }
 
-            _context.Attach(Contact).State = EntityState.Modified;
+            _context.Attach(Note).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
             return RedirectToPage("Index");
