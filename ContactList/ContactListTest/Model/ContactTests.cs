@@ -56,7 +56,8 @@ namespace ContactListTest.UnitTests.Model
             var isValid = Validator.TryValidateObject(contact, context, results, true);
 
             Assert.False(isValid);
-            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("Email"));
+            // Ищем правильное сообщение об ошибке
+            Assert.Contains(results, r => r.ErrorMessage != null && r.ErrorMessage.Contains("корректный email"));
         }
     }
 }
