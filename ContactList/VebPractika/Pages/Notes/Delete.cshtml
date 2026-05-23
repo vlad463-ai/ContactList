@@ -1,0 +1,45 @@
+﻿@page
+@model ContactList.Pages.Notes.DeleteModel
+@{
+    ViewData["Title"] = "Удалить заметку";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="mb-0">Удалить заметку</h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <h5>Вы уверены, что хотите удалить эту заметку?</h5>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Текст заметки</label>
+                        <div class="border rounded p-3 bg-light">@Model.Note.Text</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Контакт</label>
+                        <p>@(Model.Note.Contact?.FIO ?? "—")</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Дата создания</label>
+                        <p>@Model.Note.CreatedDate.ToString("dd.MM.yyyy")</p>
+                    </div>
+
+                    <form method="post">
+                        <input type="hidden" asp-for="Note.Id" />
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="submit" class="btn btn-danger">Удалить</button>
+                            <a asp-page="Index" class="btn btn-secondary">Назад</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,21 +1,50 @@
-﻿@page "{id:int}"
+﻿@page
 @model ContactList.Pages.Contacts.DeleteModel
 @{
+    ViewData["Title"] = "Удалить контакт";
 }
 
-<h1>Удалить контакт</h1>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="mb-0">🗑️ Удалить контакт</h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <h5>Вы уверены, что хотите удалить этот контакт?</h5>
+                    </div>
 
-<h3>Вы уверены, что хотите удалить этот контакт?</h3>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">ФИО</label>
+                        <p>@Model.Contact.FIO</p>
+                    </div>
 
-<div>
-    <p><strong>@Model.Contact.FIO</strong></p>
-    <p>Email: @Model.Contact.email</p>
-    <p>Телефон: @Model.Contact.Phone</p>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Email</label>
+                        <p>@Model.Contact.Email</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Телефон</label>
+                        <p>@Model.Contact.Phone</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Категория</label>
+                        <p>@(Model.Contact.Category?.Name ?? "—")</p>
+                    </div>
+
+                    <form method="post">
+                        <input type="hidden" asp-for="Contact.Id" />
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="submit" class="btn btn-danger">🗑️ Удалить</button>
+                            <a asp-page="Index" class="btn btn-secondary">🔙 Назад</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-
-<form method="post">
-    <input type="hidden" asp-for="Contact.Id" />
-    <button type="submit">Удалить</button>
-</form>
-
-<a asp-page="Index">Отмена</a>

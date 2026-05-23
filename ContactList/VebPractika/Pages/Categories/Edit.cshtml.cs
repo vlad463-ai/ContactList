@@ -1,11 +1,9 @@
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using ContactList.Data;
 using ContactList.Model;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace ContactList.Pages.Contacts
+namespace ContactList.Pages.Categories
 {
     public class EditModel : PageModel
     {
@@ -17,7 +15,7 @@ namespace ContactList.Pages.Contacts
         }
 
         [BindProperty]
-        public ContactList.Model.Contact Contact { get; set; } = new ContactList.Model.Contact();
+        public Category Category { get; set; } = new Category();
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -26,15 +24,14 @@ namespace ContactList.Pages.Contacts
                 return NotFound();
             }
 
-            var contact = await _context.Contacts.FindAsync(id);
-            if (contact == null)
+            var category = await _context.Categories.FindAsync(id);
+
+            if (category == null)
             {
                 return NotFound();
             }
 
-            Contact = contact;
-
-            ViewData["CategoryId"] = new SelectList(await _context.Categories.ToListAsync(), "Id", "Name", Contact.CategoryId);
+            Category = category;
             return Page();
         }
 
@@ -42,19 +39,18 @@ namespace ContactList.Pages.Contacts
         {
             if (!ModelState.IsValid)
             {
-                ViewData["CategoryId"] = new SelectList(await _context.Categories.ToListAsync(), "Id", "Name", Contact.CategoryId);
                 return Page();
             }
 
-            _context.Attach(Contact).State = EntityState.Modified;
+            _context.Attach(Category).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
 
             try
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception)
             {
-                if (!ContactExists(Contact.Id))
+                if (!CategoryExists(Category.Id))
                 {
                     return NotFound();
                 }
@@ -67,9 +63,9 @@ namespace ContactList.Pages.Contacts
             return RedirectToPage("./Index");
         }
 
-        private bool ContactExists(int id)
+        private bool CategoryExists(int id)
         {
-            return _context.Contacts.Any(e => e.Id == id);
+            return _context.Categories.Any(e => e.Id == id);
         }
     }
 }

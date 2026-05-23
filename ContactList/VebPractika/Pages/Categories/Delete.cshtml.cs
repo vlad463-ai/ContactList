@@ -1,10 +1,10 @@
+using ContactList.Data;
+using ContactList.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using ContactList.Data;
-using ContactList.Model;
 
-namespace ContactList.Pages.Contacts
+namespace ContactList.Pages.Categories
 {
     public class DeleteModel : PageModel
     {
@@ -16,7 +16,7 @@ namespace ContactList.Pages.Contacts
         }
 
         [BindProperty]
-        public ContactList.Model.Contact Contact { get; set; } = new ContactList.Model.Contact();
+        public Category Category { get; set; } = new Category();
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -25,16 +25,14 @@ namespace ContactList.Pages.Contacts
                 return NotFound();
             }
 
-            var contact = await _context.Contacts
-                .Include(c => c.Category)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var category = await _context.Categories.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (contact == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            Contact = contact;
+            Category = category;
             return Page();
         }
 
@@ -45,10 +43,10 @@ namespace ContactList.Pages.Contacts
                 return NotFound();
             }
 
-            var contact = await _context.Contacts.FindAsync(id);
-            if (contact != null)
+            var category = await _context.Categories.FindAsync(id);
+            if (category != null)
             {
-                _context.Contacts.Remove(contact);
+                _context.Categories.Remove(category);
                 await _context.SaveChangesAsync();
             }
 
