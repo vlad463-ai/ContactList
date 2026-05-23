@@ -1,0 +1,44 @@
+﻿@page
+@model ContactList.Pages.Account.Users.CreateModel
+@{
+}
+
+<div class="container mt-4">
+
+    <h2>Создать пользователя</h2>
+
+    <form method="post">
+
+        <div class="mb-3">
+            <label asp-for="User.Email" class="form-label">Email</label>
+            <input asp-for="User.Email" class="form-control" />
+            <span asp-validation-for="User.Email" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="User.Password" class="form-label">Пароль</label>
+            <input asp-for="User.Password" type="password" class="form-control" />
+            <span asp-validation-for="User.Password" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="User.Role" class="form-label">Роль</label>
+            <select asp-for="User.Role" class="form-select">
+                <option value="">-- Выберите роль --</option>
+                <option value="User">Пользователь</option>
+                <option value="Admin">Администратор</option>
+            </select>
+            <span asp-validation-for="User.Role" class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn btn-success">
+            Создать
+        </button>
+
+        <a asp-page="Index" class="btn btn-secondary">
+            Назад
+        </a>
+
+    </form>
+
+</div>

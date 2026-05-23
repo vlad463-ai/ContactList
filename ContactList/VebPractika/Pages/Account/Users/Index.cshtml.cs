@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ContactList.Data;
-using ContactList.Model;
+using ContactList.Model.AuthApp;
 
-namespace ContactList.Pages.Contacts
+namespace ContactList.Pages.Account.Users
 {
     [Authorize]
     public class IndexModel : PageModel
@@ -17,11 +17,11 @@ namespace ContactList.Pages.Contacts
             _context = context;
         }
 
-        public List<ContactList.Model.Contact> Contacts { get; set; }
+        public IList<AuthUser> Users { get; set; }
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-            Contacts = _context.Contacts.ToList();
+            Users = await _context.AuthUsers.ToListAsync();
         }
     }
 }

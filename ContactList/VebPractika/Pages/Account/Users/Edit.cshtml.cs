@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using ContactList.Data;
-using ContactList.Model;
+using ContactList.Model.AuthApp;
 
-namespace ContactList.Pages.Contacts
+namespace ContactList.Pages.Account.Users
 {
-    [Authorize]
+    [Authorize(Roles = "Admin")]
     public class EditModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -17,25 +18,26 @@ namespace ContactList.Pages.Contacts
         }
 
         [BindProperty]
-        public ContactList.Model.Contact Contact { get; set; }
+        public AuthUser User { get; set; }
 
-        public IActionResult OnGet(int id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            Contact = _context.Contacts.Find(id);
+            User = await _context.AuthUsers.FindAsync(id);
 
-            if (Contact == null)
+            if (User == null)
                 return NotFound();
 
             return Page();
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
                 return Page();
 
-            _context.Contacts.Update(Contact);
-            _context.SaveChanges();
+            _context.Attach(User).State = EntityState.Modified;
+
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("Index");
         }
