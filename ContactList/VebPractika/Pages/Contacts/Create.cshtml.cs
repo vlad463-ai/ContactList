@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,7 +7,6 @@ using ContactList.Model;
 
 namespace ContactList.Pages.Contacts
 {
-    [Authorize]
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -19,7 +17,7 @@ namespace ContactList.Pages.Contacts
         }
 
         [BindProperty]
-        public ContactList.Model.Contact Contact { get; set; } = new ContactList.Model.Contact();
+        public Contact Contact { get; set; } = new Contact();
 
         public async Task OnGetAsync()
         {

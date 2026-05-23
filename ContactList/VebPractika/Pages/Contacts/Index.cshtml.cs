@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ContactList.Data;
@@ -7,7 +5,6 @@ using ContactList.Model;
 
 namespace ContactList.Pages.Contacts
 {
-    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -17,11 +14,14 @@ namespace ContactList.Pages.Contacts
             _context = context;
         }
 
-        public List<ContactList.Model.Contact> Contacts { get; set; }
+        public List<Contact> Contacts { get; set; } = new List<Contact>();
 
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-            Contacts = _context.Contacts.ToList();
+            // ВАЖНО! Include(c => c.Category) подгружает категорию
+            Contacts = await _context.Contacts
+                .Include(c => c.Category)
+                .ToListAsync();
         }
     }
 }

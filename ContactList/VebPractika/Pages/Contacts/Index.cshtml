@@ -1,30 +1,43 @@
 ﻿@page
 @model ContactList.Pages.Contacts.IndexModel
 @{
-    ViewData["Title"] = "Список контактов";
+    ViewData["Title"] = "Контакты";
 }
 
-<h1>Список контактов</h1>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>📋 Контакты</h1>
+        <a asp-page="Create" class="btn btn-primary">➕ Добавить контакт</a>
+    </div>
 
-<div style="display: flex; flex-wrap: wrap; gap: 15px;">
-    @foreach (var item in Model.Contacts)
-    {
-        <div style="border: 1px solid #ccc; border-radius: 8px; padding: 12px; width: 280px;">
-            <h4 style="margin: 0 0 8px 0;">@item.FIO</h4>
-            <p style="margin: 4px 0;"><strong>Email:</strong> @item.Email</p>
-            <p style="margin: 4px 0;"><strong>Телефон:</strong> @item.Phone</p>
-            <p style="margin: 4px 0;"><strong>Категория:</strong> @(item.Category?.Name ?? "—")</p>
-            <p style="margin: 4px 0;"><strong>№</strong> @item.Id</p>
-
-            <div style="margin-top: 10px;">
-                <a asp-page="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Открыть</a>
-                <a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Изменить</a>
-                <a asp-page="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Удалить</a>
+    <div class="row">
+        @foreach (var item in Model.Contacts)
+        {
+            <div class="col-md-4 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.FIO</h5>
+                        <p class="card-text mb-1">
+                            <strong>Email:</strong> @item.Email<br />
+                            <strong>Телефон:</strong> @item.Phone<br />
+                            <strong>Категория:</strong>
+                            @if (item.Category != null)
+                            {
+                                <span class="badge" style="background-color: @item.Category.Color">@item.Category.Name</span>
+                            }
+                            else
+                            {
+                                <span class="text-muted">—</span>
+                            }
+                        </p>
+                        <div class="btn-group w-100 mt-2">
+                            <a asp-page="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Открыть</a>
+                            <a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Изменить</a>
+                            <a asp-page="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Удалить</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>
-
-<p style="margin-top: 20px;">
-    <a asp-page="Create" class="btn btn-primary">➕ Добавить контакт</a>
-</p>
