@@ -1,10 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
 using ContactList.Data;
 using ContactList.Model;
 
-namespace ContactList.Pages.Contacts
+namespace ContactList.Pages.Categories
 {
     public class DetailsModel : PageModel
     {
@@ -15,7 +14,7 @@ namespace ContactList.Pages.Contacts
             _context = context;
         }
 
-        public ContactList.Model.Contact Contact { get; set; } = new ContactList.Model.Contact();
+        public Category Category { get; set; } = new Category();
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -24,16 +23,14 @@ namespace ContactList.Pages.Contacts
                 return NotFound();
             }
 
-            var contact = await _context.Contacts
-                .Include(c => c.Category)
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var category = await _context.Categories.FindAsync(id);
 
-            if (contact == null)
+            if (category == null)
             {
                 return NotFound();
             }
 
-            Contact = contact;
+            Category = category;
             return Page();
         }
     }

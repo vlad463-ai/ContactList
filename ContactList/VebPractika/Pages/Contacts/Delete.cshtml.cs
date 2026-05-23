@@ -16,24 +16,34 @@ namespace ContactList.Pages.Contacts
         }
 
         [BindProperty]
-        public ContactList.Model.Contact Contact { get; set; }
+        public ContactList.Model.Contact Contact { get; set; } = new ContactList.Model.Contact();
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-            Contact = await _context.Contacts
+            var contact = await _context.Contacts
                 .Include(c => c.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (Contact == null) return NotFound();
+            if (contact == null)
+            {
+                return NotFound();
+            }
 
+            Contact = contact;
             return Page();
         }
 
         public async Task<IActionResult> OnPostAsync(int? id)
         {
-            if (id == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
 
             var contact = await _context.Contacts.FindAsync(id);
             if (contact != null)
@@ -42,7 +52,7 @@ namespace ContactList.Pages.Contacts
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("Index");
+            return RedirectToPage("./Index");
         }
     }
 }

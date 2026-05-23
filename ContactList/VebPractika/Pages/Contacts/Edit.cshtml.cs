@@ -17,19 +17,24 @@ namespace ContactList.Pages.Contacts
         }
 
         [BindProperty]
-        public ContactList.Model.Contact Contact { get; set; }
+        public ContactList.Model.Contact Contact { get; set; } = new ContactList.Model.Contact();
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-            Contact = await _context.Contacts.FindAsync(id);
-            if (Contact == null) return NotFound();
+            var contact = await _context.Contacts.FindAsync(id);
+            if (contact == null)
+            {
+                return NotFound();
+            }
 
-            // «агружаем категории дл€ выпадающего списка
-            var categories = await _context.Categories.ToListAsync();
-            ViewData["CategoryId"] = new SelectList(categories, "Id", "Name", Contact.CategoryId);
+            Contact = contact;
 
+            ViewData["CategoryId"] = new SelectList(await _context.Categories.ToListAsync(), "Id", "Name", Contact.CategoryId);
             return Page();
         }
 
@@ -37,15 +42,34 @@ namespace ContactList.Pages.Contacts
         {
             if (!ModelState.IsValid)
             {
-                var categories = await _context.Categories.ToListAsync();
-                ViewData["CategoryId"] = new SelectList(categories, "Id", "Name", Contact.CategoryId);
+                ViewData["CategoryId"] = new SelectList(await _context.Categories.ToListAsync(), "Id", "Name", Contact.CategoryId);
                 return Page();
             }
 
             _context.Attach(Contact).State = EntityState.Modified;
-            await _context.SaveChangesAsync();
 
-            return RedirectToPage("Index");
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ContactExists(Contact.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return RedirectToPage("./Index");
+        }
+
+        private bool ContactExists(int id)
+        {
+            return _context.Contacts.Any(e => e.Id == id);
         }
     }
 }

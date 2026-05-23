@@ -4,39 +4,47 @@
     ViewData["Title"] = "Удалить контакт";
 }
 
-<h1>Удалить контакт</h1>
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-header bg-danger text-white">
+                    <h3 class="mb-0">🗑️ Удалить контакт</h3>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning">
+                        <h5>Вы уверены, что хотите удалить этот контакт?</h5>
+                    </div>
 
-<div class="alert alert-danger">
-    <h3>Вы уверены, что хотите удалить этот контакт?</h3>
-</div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">ФИО</label>
+                        <p>@Model.Contact.FIO</p>
+                    </div>
 
-<div>
-    <dl class="row">
-        <dt class="col-sm-2">ФИО</dt>
-        <dd class="col-sm-10">@Model.Contact.FIO</dd>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Email</label>
+                        <p>@Model.Contact.Email</p>
+                    </div>
 
-        <dt class="col-sm-2">Email</dt>
-        <dd class="col-sm-10">@Model.Contact.Email</dd>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Телефон</label>
+                        <p>@Model.Contact.Phone</p>
+                    </div>
 
-        <dt class="col-sm-2">Телефон</dt>
-        <dd class="col-sm-10">@Model.Contact.Phone</dd>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Категория</label>
+                        <p>@(Model.Contact.Category?.Name ?? "—")</p>
+                    </div>
 
-        <dt class="col-sm-2">Категория</dt>
-        <dd class="col-sm-10">
-            @if (Model.Contact.Category != null)
-            {
-                @Model.Contact.Category.Name
-            }
-            else
-            {
-                <span class="text-muted">—</span>
-            }
-        </dd>
-    </dl>
-
-    <form method="post">
-        <input type="hidden" asp-for="Contact.Id" />
-        <input type="submit" value="Удалить" class="btn btn-danger" />
-        <a asp-page="Index" class="btn btn-secondary">Назад</a>
-    </form>
+                    <form method="post">
+                        <input type="hidden" asp-for="Contact.Id" />
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="submit" class="btn btn-danger">🗑️ Удалить</button>
+                            <a asp-page="Index" class="btn btn-secondary">🔙 Назад</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
