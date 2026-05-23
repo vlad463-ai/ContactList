@@ -1,10 +1,24 @@
 ﻿@using System.Security.Claims
+@using ContactList.Data
+@using ContactList.Model.AuthApp
 @inject IHttpContextAccessor HttpContextAccessor
+@inject ApplicationDbContext _context
 @{
     var user = HttpContextAccessor.HttpContext?.User;
     var isAuthenticated = user?.Identity?.IsAuthenticated ?? false;
     var userName = user?.Identity?.Name ?? "";
     var isAdmin = user?.IsInRole("Admin") ?? false;
+
+    // Загружаем аватар текущего пользователя
+    var avatarBase64 = "";
+    if (isAuthenticated)
+    {
+        var currentUser = _context.AuthUsers.FirstOrDefault(u => u.Email == userName);
+        if (currentUser?.Avatar != null && currentUser.Avatar.Length > 0)
+        {
+            avatarBase64 = Convert.ToBase64String(currentUser.Avatar);
+        }
+    }
 }
 
 <!DOCTYPE html>
@@ -59,8 +73,17 @@
                         else
                         {
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
-                                    👤 @userName
+                                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                    @if (!string.IsNullOrEmpty(avatarBase64))
+                                    {
+                                        <img src="data:image/png;base64,@avatarBase64"
+                                             style="width: 30px; height: 30px; object-fit: cover; border-radius: 50%; margin-right: 8px;" />
+                                    }
+                                    else
+                                    {
+                                        <span style="font-size: 20px; margin-right: 8px;">👤</span>
+                                    }
+                                    @userName
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                                     <li>
