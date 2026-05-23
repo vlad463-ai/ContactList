@@ -17,7 +17,7 @@ namespace ContactList.Pages.Contacts
         }
 
         [BindProperty]
-        public Contact Contact { get; set; } = new Contact();
+        public ContactList.Model.Contact Contact { get; set; } = new ContactList.Model.Contact();
 
         public async Task OnGetAsync()
         {

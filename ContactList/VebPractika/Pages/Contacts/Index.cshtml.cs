@@ -14,7 +14,7 @@ namespace ContactList.Pages.Contacts
             _context = context;
         }
 
-        public List<Contact> Contacts { get; set; } = new List<Contact>();
+        public List<ContactList.Model.Contact> Contacts { get; set; } = new List<ContactList.Model.Contact>();
 
         public async Task OnGetAsync()
         {

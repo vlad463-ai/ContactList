@@ -1,12 +1,12 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using ContactList.Data;
 using ContactList.Model;
 
 namespace ContactList.Pages.Contacts
 {
-    [Authorize]
     public class EditModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -19,23 +19,39 @@ namespace ContactList.Pages.Contacts
         [BindProperty]
         public ContactList.Model.Contact Contact { get; set; }
 
-        public IActionResult OnGet(int id)
+        public async Task<IActionResult> OnGetAsync(int? id)
         {
-            Contact = _context.Contacts.Find(id);
-
-            if (Contact == null)
+            if (id == null)
+            {
                 return NotFound();
+            }
+
+            var contact = await _context.Contacts.FindAsync(id);
+            if (contact == null)
+            {
+                return NotFound();
+            }
+
+            Contact = contact;
+
+            // Загружаем список категорий и передаём выбранную
+            var categories = await _context.Categories.ToListAsync();
+            ViewData["CategoryId"] = new SelectList(categories, "Id", "Name", Contact.CategoryId);
 
             return Page();
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
+            {
+                var categories = await _context.Categories.ToListAsync();
+                ViewData["CategoryId"] = new SelectList(categories, "Id", "Name", Contact.CategoryId);
                 return Page();
+            }
 
-            _context.Contacts.Update(Contact);
-            _context.SaveChanges();
+            _context.Attach(Contact).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
 
             return RedirectToPage("Index");
         }

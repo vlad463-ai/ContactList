@@ -1,6 +1,7 @@
 ﻿@page
 @model ContactList.Pages.Account.RegisterModel
 @{
+    ViewData["Title"] = "Регистрация";
 }
 
 <div class="container mt-4">
@@ -30,6 +31,15 @@
                             <label asp-for="Input.ConfirmPassword" class="form-label">Подтверждение пароля</label>
                             <input asp-for="Input.ConfirmPassword" type="password" class="form-control" />
                             <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Input.Role" class="form-label">Роль</label>
+                            <select asp-for="Input.Role" class="form-select">
+                                <option value="User">Пользователь</option>
+                                <option value="Admin">Администратор</option>
+                            </select>
+                            <span asp-validation-for="Input.Role" class="text-danger"></span>
                         </div>
 
                         <div class="d-flex justify-content-between mt-4">

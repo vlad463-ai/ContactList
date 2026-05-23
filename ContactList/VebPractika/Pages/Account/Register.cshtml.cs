@@ -1,11 +1,11 @@
-using ContactList.Data;
-using ContactList.Model;
-using ContactList.Model.AuthApp;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
+using ContactList.Data;
+using ContactList.Model.AuthApp;
 
 namespace ContactList.Pages.Account
 {
@@ -23,46 +23,54 @@ namespace ContactList.Pages.Account
 
         public class RegisterInputModel
         {
+            [Required(ErrorMessage = "Email обязателен")]
+            [EmailAddress(ErrorMessage = "Введите корректный email")]
             public string Email { get; set; }
+
+            [Required(ErrorMessage = "Пароль обязателен")]
+            [MinLength(6, ErrorMessage = "Пароль должен быть не менее 6 символов")]
+            [DataType(DataType.Password)]
             public string Password { get; set; }
+
+            [DataType(DataType.Password)]
+            [Compare("Password", ErrorMessage = "Пароли не совпадают")]
             public string ConfirmPassword { get; set; }
+
+            public string Role { get; set; } = "User";
         }
 
-        public void OnGet() { }
+        public void OnGet()
+        {
+        }
 
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
                 return Page();
 
-            if (Input.Password != Input.ConfirmPassword)
+            // Проверка, существует ли уже пользователь
+            var existingUser = _context.AuthUsers.FirstOrDefault(u => u.Email == Input.Email);
+            if (existingUser != null)
             {
-                ModelState.AddModelError(string.Empty, "Пароли не совпадают");
+                ModelState.AddModelError(string.Empty, "Пользователь с таким email уже существует");
                 return Page();
             }
 
-            bool isFirstUser = !_context.AuthUsers.Any();
-
-            var user = _context.AuthUsers.FirstOrDefault(u => u.Email == Input.Email);
-
-            if (user == null)
+            // Создание нового пользователя
+            var user = new AuthUser
             {
-                user = new AuthUser
-                {
-                    Email = Input.Email,
-                    Password = Input.Password,
-                    Role = isFirstUser ? "Admin" : "User"
-                };
+                Email = Input.Email,
+                Password = Input.Password,
+                Role = Input.Role
+            };
 
-                _context.AuthUsers.Add(user);
-                await _context.SaveChangesAsync();
+            _context.AuthUsers.Add(user);
+            await _context.SaveChangesAsync();
 
-                await Authenticate(user.Email, user.Role);
-                return RedirectToPage("/Index");
-            }
+            // Автоматический вход после регистрации
+            await Authenticate(user.Email, user.Role);
 
-            ModelState.AddModelError(string.Empty, "Пользователь уже существует!");
-            return Page();
+            return RedirectToPage("/Index");
         }
 
         private async Task Authenticate(string userName, string role)
