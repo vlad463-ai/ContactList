@@ -1,21 +1,42 @@
-﻿@page "{id:int}"
+﻿@page
 @model ContactList.Pages.Contacts.DeleteModel
 @{
+    ViewData["Title"] = "Удалить контакт";
 }
 
 <h1>Удалить контакт</h1>
 
-<h3>Вы уверены, что хотите удалить этот контакт?</h3>
-
-<div>
-    <p><strong>@Model.Contact.FIO</strong></p>
-    <p>Email: @Model.Contact.email</p>
-    <p>Телефон: @Model.Contact.Phone</p>
+<div class="alert alert-danger">
+    <h3>Вы уверены, что хотите удалить этот контакт?</h3>
 </div>
 
-<form method="post">
-    <input type="hidden" asp-for="Contact.Id" />
-    <button type="submit">Удалить</button>
-</form>
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">ФИО</dt>
+        <dd class="col-sm-10">@Model.Contact.FIO</dd>
 
-<a asp-page="Index">Отмена</a>
+        <dt class="col-sm-2">Email</dt>
+        <dd class="col-sm-10">@Model.Contact.Email</dd>
+
+        <dt class="col-sm-2">Телефон</dt>
+        <dd class="col-sm-10">@Model.Contact.Phone</dd>
+
+        <dt class="col-sm-2">Категория</dt>
+        <dd class="col-sm-10">
+            @if (Model.Contact.Category != null)
+            {
+                @Model.Contact.Category.Name
+            }
+            else
+            {
+                <span class="text-muted">—</span>
+            }
+        </dd>
+    </dl>
+
+    <form method="post">
+        <input type="hidden" asp-for="Contact.Id" />
+        <input type="submit" value="Удалить" class="btn btn-danger" />
+        <a asp-page="Index" class="btn btn-secondary">Назад</a>
+    </form>
+</div>

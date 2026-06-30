@@ -1,38 +1,30 @@
 ﻿@page
 @model ContactList.Pages.Contacts.IndexModel
 @{
+    ViewData["Title"] = "Список контактов";
 }
 
 <h1>Список контактов</h1>
 
-<p>
-    <a asp-page="Create">Добавить новый контакт</a>
-</p>
+<div style="display: flex; flex-wrap: wrap; gap: 15px;">
+    @foreach (var item in Model.Contacts)
+    {
+        <div style="border: 1px solid #ccc; border-radius: 8px; padding: 12px; width: 280px;">
+            <h4 style="margin: 0 0 8px 0;">@item.FIO</h4>
+            <p style="margin: 4px 0;"><strong>Email:</strong> @item.Email</p>
+            <p style="margin: 4px 0;"><strong>Телефон:</strong> @item.Phone</p>
+            <p style="margin: 4px 0;"><strong>Категория:</strong> @(item.Category?.Name ?? "—")</p>
+            <p style="margin: 4px 0;"><strong>№</strong> @item.Id</p>
 
-<table border="1" cellpadding="5">
-    <thead>
-        <tr>
-            <th>ФИО</th>
-            <th>Email</th>
-            <th>Телефон</th>
-            <th>Категория</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var contact in Model.Contacts)
-        {
-            <tr>
-                <td>@contact.FIO</td>
-                <td>@contact.email</td>
-                <td>@contact.Phone</td>
-                <td>@(contact.Category?.Name ?? "—")</td>
-                <td>
-                    <a asp-page="Details" asp-route-id="@contact.Id">Открыть</a>
-                    <a asp-page="Edit" asp-route-id="@contact.Id">Изменить</a>
-                    <a asp-page="Delete" asp-route-id="@contact.Id">Удалить</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+            <div style="margin-top: 10px;">
+                <a asp-page="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Открыть</a>
+                <a asp-page="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Изменить</a>
+                <a asp-page="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Удалить</a>
+            </div>
+        </div>
+    }
+</div>
+
+<p style="margin-top: 20px;">
+    <a asp-page="Create" class="btn btn-primary">➕ Добавить контакт</a>
+</p>

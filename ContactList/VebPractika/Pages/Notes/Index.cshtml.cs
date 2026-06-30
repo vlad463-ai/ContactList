@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using ContactList.Data;
 using ContactList.Model;
 
-namespace ContactList.Pages.Contacts
+namespace ContactList.Pages.Notes
 {
     public class IndexModel : PageModel
     {
@@ -14,12 +14,12 @@ namespace ContactList.Pages.Contacts
             _context = context;
         }
 
-        public List<ContactList.Model.Contact> Contacts { get; set; } = new List<ContactList.Model.Contact>();
+        public List<Note> Notes { get; set; } = new List<Note>();
 
         public async Task OnGetAsync()
         {
-            Contacts = await _context.Contacts
-                .Include(c => c.Category)
+            Notes = await _context.Notes
+                .Include(n => n.Contact)
                 .ToListAsync();
         }
     }

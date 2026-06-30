@@ -1,0 +1,26 @@
+﻿
+@page
+@model ContactList.Pages.Categories.DetailsModel
+@{
+    ViewData["Title"] = "Детали категории";
+}
+
+<h1>Детали категории</h1>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">Название</dt>
+        <dd class="col-sm-10">@Model.Category.Name</dd>
+
+        <dt class="col-sm-2">Цвет</dt>
+        <dd class="col-sm-10">
+            <span style="display:inline-block; width:30px; height:30px; background-color:@Model.Category.Color;"></span>
+            @Model.Category.Color
+        </dd>
+    </dl>
+</div>
+
+<div>
+    <a asp-page="Edit" asp-route-id="@Model.Category.Id" class="btn btn-warning">Редактировать</a>
+    <a asp-page="Index" class="btn btn-secondary">Назад</a>
+</div>

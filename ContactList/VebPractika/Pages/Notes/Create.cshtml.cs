@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using ContactList.Data;
 using ContactList.Model;
 
-namespace ContactList.Pages.Contacts
+namespace ContactList.Pages.Notes
 {
     public class CreateModel : PageModel
     {
@@ -17,24 +17,22 @@ namespace ContactList.Pages.Contacts
         }
 
         [BindProperty]
-        public ContactList.Model.Contact Contact { get; set; }
+        public Note Note { get; set; } = new Note();
 
         public async Task OnGetAsync()
         {
-            // Загружаем категории для выпадающего списка
-            ViewData["CategoryId"] = new SelectList(await _context.Categories.ToListAsync(), "Id", "Name");
+            ViewData["ContactId"] = new SelectList(await _context.Contacts.ToListAsync(), "Id", "FIO");
         }
 
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
             {
-                // При ошибке снова загружаем категории
-                ViewData["CategoryId"] = new SelectList(await _context.Categories.ToListAsync(), "Id", "Name");
+                ViewData["ContactId"] = new SelectList(await _context.Contacts.ToListAsync(), "Id", "FIO");
                 return Page();
             }
 
-            _context.Contacts.Add(Contact);
+            _context.Notes.Add(Note);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("Index");
