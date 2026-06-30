@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using ContactList.Data;
-using ContactList.Model;
+using ContactList.Model.AuthApp;
 
-namespace ContactList.Pages.Contacts
+namespace ContactList.Pages.Account.Users
 {
     [Authorize]
     public class DetailsModel : PageModel
@@ -16,13 +17,13 @@ namespace ContactList.Pages.Contacts
             _context = context;
         }
 
-        public ContactList.Model.Contact Contact { get; set; }
+        public AuthUser User { get; set; }
 
-        public IActionResult OnGet(int id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            Contact = _context.Contacts.FirstOrDefault(s => s.Id == id);
+            User = await _context.AuthUsers.FindAsync(id);
 
-            if (Contact == null)
+            if (User == null)
                 return NotFound();
 
             return Page();

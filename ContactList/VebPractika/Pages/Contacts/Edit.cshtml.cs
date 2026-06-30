@@ -21,12 +21,20 @@ namespace ContactList.Pages.Contacts
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
-            if (id == null) return NotFound();
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-            Contact = await _context.Contacts.FindAsync(id);
-            if (Contact == null) return NotFound();
+            var contact = await _context.Contacts.FindAsync(id);
+            if (contact == null)
+            {
+                return NotFound();
+            }
 
-            // Загружаем категории для выпадающего списка
+            Contact = contact;
+
+            // Загружаем список категорий и передаём выбранную
             var categories = await _context.Categories.ToListAsync();
             ViewData["CategoryId"] = new SelectList(categories, "Id", "Name", Contact.CategoryId);
 

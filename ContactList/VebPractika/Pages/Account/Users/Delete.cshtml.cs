@@ -2,9 +2,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using ContactList.Data;
-using ContactList.Model;
+using ContactList.Model.AuthApp;
 
-namespace ContactList.Pages.Contacts
+namespace ContactList.Pages.Account.Users
 {
     [Authorize(Roles = "Admin")]
     public class DeleteModel : PageModel
@@ -17,26 +17,26 @@ namespace ContactList.Pages.Contacts
         }
 
         [BindProperty]
-        public ContactList.Model.Contact Contact { get; set; }
+        public AuthUser User { get; set; }
 
-        public IActionResult OnGet(int id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            Contact = _context.Contacts.Find(id);
+            User = await _context.AuthUsers.FindAsync(id);
 
-            if (Contact == null)
+            if (User == null)
                 return NotFound();
 
             return Page();
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPostAsync()
         {
-            var contact = _context.Contacts.Find(Contact.Id);
+            var user = await _context.AuthUsers.FindAsync(User.Id);
 
-            if (contact != null)
+            if (user != null)
             {
-                _context.Contacts.Remove(contact);
-                _context.SaveChanges();
+                _context.AuthUsers.Remove(user);
+                await _context.SaveChangesAsync();
             }
 
             return RedirectToPage("Index");

@@ -1,10 +1,13 @@
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using ContactList.Data;
-using ContactList.Model;
+using ContactList.Model.AuthApp;
 
-namespace ContactList.Pages.Contacts
+namespace ContactList.Pages.Account.Users
 {
+    [Authorize]
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
@@ -14,14 +17,11 @@ namespace ContactList.Pages.Contacts
             _context = context;
         }
 
-        public List<ContactList.Model.Contact> Contacts { get; set; } = new List<ContactList.Model.Contact>();
+        public IList<AuthUser> Users { get; set; }
 
         public async Task OnGetAsync()
         {
-            // ВАЖНО! Include(c => c.Category) подгружает категорию
-            Contacts = await _context.Contacts
-                .Include(c => c.Category)
-                .ToListAsync();
+            Users = await _context.AuthUsers.ToListAsync();
         }
     }
 }
